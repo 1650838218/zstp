@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="springmvc-mybites"
+  id="myeclipse.1498997718208"
+  context-root="/oa"
+  j2ee-spec="5.0"
+  archive="springmvc-mybites.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

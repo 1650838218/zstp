@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd 
+				http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd 
+				http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-4.3.xsd">
+	
+	<!-- 激活Spring注解方式：自动扫描，并注入Controller. -->
+	<context:component-scan base-package="com.**.action">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+	
+	<!-- 
+		<mvc:default-servlet-handler/>
+		<mvc:annotation-driven />
+		default-servlet-handler将在SpringMVC上下文中定义一个DefaultServletHttpRequestHandler,
+		它会对进入DispatcherServlet的请求进行筛查。
+		如果发现是没有经过映射的请求，就将该请求交由WEB应用服务器默认的Servlet进行处理。
+		如果不是静态资源的请求，才由DispatcherServlet继续进行处理。
+		当两种标签都没有的时候，框架默认注册的有AnnotationMethodHandlerAdapter这个bean，
+		所以能够处理@RequestMapping这个注解，
+		但是只配置了<mvc:default-servlet-handler/>时所注册的三个bean都不能处理@RequestMapping注解，
+		因此无法找到相应的Controller，进而无法进行访问路径的映射，
+		当两种标签都有的时候，<mvc:annotation-driven/>会注册一个RequestMappingHandlerAdapter的bean，
+		这个bean能够处理@RequestMapping这个注解。
+	 -->
+	<mvc:default-servlet-handler/><!-- 由WEB服务器默认的Servlet来处理静态资源 -->
+	<mvc:annotation-driven />
+	
+	<!-- 映射静态资源文件 -->
+	<mvc:resources mapping="/static/**" location="/,classpath:/META-INF/static/" />
+	
+	<bean id="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:viewClass="org.springframework.web.servlet.view.JstlView"
+		p:prefix="/WEB-INF/jsp/"
+		p:suffix=".jsp" p:order="1" />
+</beans>
