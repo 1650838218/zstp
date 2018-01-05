@@ -2,6 +2,7 @@ package com.zstp.treechart.action;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * TODO 图谱Action
@@ -12,5 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/zstp/treechart")
 public class TreechartAction {
 
+	@RequestMapping(value = "/addView", method = RequestMethod.GET)
+	public String addView() {
+		return "add";
+	}
 
 }
