@@ -1,10 +1,10 @@
 package com.zstp.constant;
 
 /**
- * TODO ³£Á¿Àà
- * @author ÖÜ¿¡ÁÖ
- * @Date 2018-1-5 ÏÂÎç03:27:04
+ * TODO 
+ * @author å‘¨ä¿Šæ—
+ * @Date 2018-1-11 ä¸‹åˆ08:52:31
  */
 public class Constants {
-
+	
 }

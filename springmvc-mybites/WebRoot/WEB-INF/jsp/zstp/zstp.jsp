@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -115,27 +114,7 @@
 <div class="spFileSplit1"><img src="/img/btspt.png"></div>
 <div class="spFileBt2" onclick="showVerMenu(event);" title="版本控制"><span id="gicon" class="icon" style="background-position: -120px -150px"></span>版本</div>
  
-<script language="javascript">
-	function newLore(evt)
-	{
-		var fileKeys = getFileKeys("multiFileKey");
-		var idtxt = "";
-		for (var i=0; i<fileKeys.length ;i++ )
-		{
-			idtxt = idtxt + fileKeys[i];
-			if (i < fileKeys.length - 1)
-				idtxt = idtxt + ",";	
-		}		
-		var idname = "k" + rnd();
-		setCookie(idname, idtxt, 1);
-		
-		var filename = "";
-		if (fileKeys.length > 0)
-			filename = document.getElementById("fn_lt_" + fileKeys[0]).innerText;
-
-		location.href = "/km/view?opr=new&step=1&nc=" + idname + "&title=" + encodeURIComponent(filename);
-	}
-</script>	
+	
 			</div>
 			
 			<div id="recyclemenu" style="display: none; padding-left:12px;">
