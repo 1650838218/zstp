@@ -1,0 +1,47 @@
+@CHARSET "UTF-8";
+
+#divDocument {
+	background-color: #ededed;
+	margin: 0px auto;
+	width: 100%;
+	height: 800px;
+}
+
+#divLeft {
+	float: left;
+	width: 320px;
+	height: 100%;
+	border: 1px solid #C1C4C4;
+	background-color: #FFFFFF;
+}
+
+#divCenter {
+	float: left;
+	width: 9px;
+	height: 100%;
+	background-image: url(../img/sp_bg2.png);
+	cursor: col-resize;
+}
+
+#divRight {
+	float: left;
+	width: 600px;
+	height: 100%;
+	border: 1px solid #C1C4C4;
+	background-color: #FFFFFF;
+}
+
+#divFolderFrame {
+	position: relative;
+	height: 100%;
+}
+
+#divFolderFrame img {
+	cursor: pointer;
+	margin-right: 2px;
+}
+
+#leftTopMenu {
+	height: 30px;
+	background-color: #efefef;
+}
