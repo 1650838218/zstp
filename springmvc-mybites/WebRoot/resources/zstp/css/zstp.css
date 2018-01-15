@@ -45,3 +45,41 @@
 	height: 30px;
 	background-color: #efefef;
 }
+
+.divFileBt {
+	height: 30px;
+	border-bottom: 1px solid #C1C4C4;
+	background-color: #EDEDED;
+}
+
+.spFileBt {
+	float: left;
+	padding-right: 4px;
+}
+
+.spFileBt2 {
+	float: left;
+	padding-right: 10px;
+	padding-top: 5px;
+	cursor: pointer;
+}
+
+.spFileBt3 {
+	float: left;
+	padding-right: 10px;
+	padding-top: 5px;
+	cursor: pointer;
+}
+
+.spFileBt4 {
+	float: left;
+	padding-right: 0px;
+	padding-top: 5px;
+	cursor: pointer;
+}
+
+.spFileSplit1 {
+	width: 10px;
+	float: left;
+	padding-top: 7px;
+}

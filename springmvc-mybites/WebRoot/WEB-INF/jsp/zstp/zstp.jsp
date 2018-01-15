@@ -17,31 +17,39 @@
 			<div id="divLeft" style="">
 				<div id="divFolderFrame" style="height: 502px; display: block;">
 					<div id="leftTopMenu">
-						<div style="float:left; margin-left:6px; height:30px; padding-top:5px;">
-							<span id="gicon" class="icon" style="background-position: -270px -239px; margin-right:2px;"></span>
-							<span title="浏览、管理文件夹,增加、删除、转移文件夹" style="cursor:pointer;">文档管理</span>
-						</div>
-						<div style="float:right; width:114px; height:30px; padding-top:5px;">
+						<div class="spFileBt" style="padding-left:6px; padding-top:2px;"><span id="gicon" style="width: 12px; height: 24px; background-position: -420px -238px;"></span></div>
+						<div class="spFileBt2" id="divViewStyleExt" onclick="folderNew(event);" title="新建文件夹"><span id="gicon" class="icon" style="background-position :-0px -330px;"></span>新建</div>
+						<div class="spFileSplit1"><img src="<%=request.getContextPath() %>/resources/zstp/img/btspt.png"></div>
+						<div class="spFileBt2" id="divViewStyleExt" onclick="folderNew(event);" title="新建文件夹"><span id="gicon" class="icon" style="background-position :-0px -330px;"></span>新建</div>
+						<div style="float:right; width:60px; height:30px; padding-top:5px;">
 							<div onclick="hideFolder();" style="float:left;">
 								<span id="gicon" class="icon" style="background-position: -210px -239px;  cursor: pointer;" title="隐藏文件夹"></span>
 								隐藏
-							</div>
-		
-							<div id="divfolderPopMenu" onclick="showFolderTip(event);" style="float:left; margin-left:10px; cursor: pointer;" title="显示文件夹菜单">
-								<span id="gicon" class="icon" style="background-position: -510px -360px;"></span>
-								菜单
 							</div>
 						</div>
 					</div>
 					<div id="divExplore" style="position: absolute; overflow: auto; margin-left: 4px; margin-top: 4px; color: rgb(0, 0, 0); height: 472px; top: 25px; width: 316px;" onmouseup="showFolderMenu(event);"></div>
 				</div>
 				<div id="divFF2" style="display: display: none;">
-					<img src="/img/rightattr.png" onclick="showFolder();" style="cursor:pointer; margin-bottom:6px">
+					<img src="<%=request.getContextPath() %>/resources/zstp/img/rightattr.png" onclick="showFolder();" style="cursor:pointer; margin-bottom:6px">
 					<br><font style="font-size:14px;"><span title="点击显示文件夹">显示文件夹</span></font>
 				</div>
 			</div>
 			<div id="divCenter" style="display: block;"></div>
-			<div id="divRight" onmouseup="showFileMenu(event);" style="width: 992px;"></div>
+			<div id="divRight" onmouseup="showFileMenu(event);" style="width: 992px;">
+				<div class="divFileBt">
+					<div id="filetopmenu" style="height:26px; overflow: hidden;">
+						<div class="spFileBt" style="padding-left:6px; padding-top:2px;"><span id="gicon" style="width: 12px; height: 24px; background-position: -420px -238px;"></span></div>
+						<div id="divfilePopMenu" class="spFileBt2" onclick="showFileTip(event);" title="显示文件菜单">
+							<span id="gicon" class="icon" style="background-position: -30px -60px; cursor: pointer;"></span>菜单
+						</div>
+						<div class="spFileSplit1"><img src="<%=request.getContextPath() %>/resources/zstp/img/btspt.png"></div>
+						<div class="spFileBt2" id="divViewStyleExt" onclick="showViewModeMenu(event);" title="查看"><span id="gicon" class="icon" style="background-position :-0px -60px;"></span>查看</div>
+						<div class="spFileSplit1"><img src="<%=request.getContextPath() %>/resources/zstp/img/btspt.png"></div>
+						<div class="spFileBt2" id="divViewStyleExt" onclick="folderNew(event);" title="新建文件夹"><span id="gicon" class="icon" style="background-position :-0px -330px;"></span>新建文件夹</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	
