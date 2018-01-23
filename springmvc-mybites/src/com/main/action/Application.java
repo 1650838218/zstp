@@ -13,6 +13,6 @@ public class Application {
 
 	@RequestMapping(value = "/homepage")
 	public String mainView() {
-		return "main/main";
+		return "index/index";
 	}
 }

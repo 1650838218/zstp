@@ -1,7 +1,10 @@
 // 构造 ztree
 var setting = {
 	view : {
-		selectedMulti : false
+		selectedMulti : false,
+		showLine: false,
+		nameIsHTML: true,
+		dblClickExpand: dblClickExpand
 	},
 	edit : {
 		enable : true,
@@ -26,20 +29,19 @@ var setting = {
 };
 
 var zNodes =[
-			{ id:1, pId:0, name:"父节点 1", open:true},
-			{ id:11, pId:1, name:"叶子节点 1-1"},
-			{ id:12, pId:1, name:"叶子节点 1-2"},
-			{ id:13, pId:1, name:"叶子节点 1-3"},
-			{ id:2, pId:0, name:"父节点 2", open:true},
-			{ id:21, pId:2, name:"叶子节点 2-1"},
-			{ id:22, pId:2, name:"叶子节点 2-2"},
-			{ id:23, pId:2, name:"叶子节点 2-3"},
-			{ id:3, pId:0, name:"父节点 3", open:true},
-			{ id:31, pId:3, name:"叶子节点 3-1"},
-			{ id:32, pId:3, name:"叶子节点 3-2"},
-			{ id:33, pId:3, name:"叶子节点 3-3"}
+			{ id:01, pId:00, name:"知识图谱", open:true, iconSkin:"pIconMain"},
+			{ id:0101, pId:01, name:"java web", open:true},
+			{ id:010101, pId:0101, name:"前端"},
+			{ id:0102, pId:01, name:"数据库"},
+			{ id:010201, pId:0102, name:"oracle"},
+			{ id:010202, pId:0102, name:"mysql"}
 		];
 var log, className = "dark";
+
+// 仅 level=0 的父节点取消双击展开的功能
+function dblClickExpand(treeId, treeNode) {
+	return treeNode.level > 0;
+}
 
 function beforeDrag(treeId, treeNodes) {
 	return false;

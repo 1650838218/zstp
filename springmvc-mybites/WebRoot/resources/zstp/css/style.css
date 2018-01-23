@@ -3,7 +3,7 @@ div, table, input, select, TEXTAREA,ul{font-size:14px;}
 
 img{ border:0px; vertical-align: middle;}
 form{margin:0px;}
-
+/*
 a:active{color: #2A2A2A; text-decoration: underline; cursor: pointer; }
 a:link{color: #0076A3; text-decoration: underline; cursor: pointer;}
 a:visited{color: #0076A3; text-decoration: underline; cursor: pointer;}
@@ -13,7 +13,7 @@ a.tpgray:active{color: #6a6a6a; text-decoration: underline; cursor: pointer; }
 a.tpgray:link{color: #6a6a6a; text-decoration: underline; cursor: pointer;}
 a.tpgray:visited{color: #6a6a6a; text-decoration: underline; cursor: pointer;}
 a.tpgray:hover {color: #6a6a6a; text-decoration: underline; cursor: pointer;}
- 
+ */
 #divframe{border: 1px solid #ededed; background-color:#ededed; padding:6px 10px 6px 10px; min-width:860px; 
 	width:expression((document.body.clientWidth < 860) ? "860px" : "100%");
 }

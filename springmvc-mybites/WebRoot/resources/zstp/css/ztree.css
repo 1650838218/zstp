@@ -1,0 +1,21 @@
+@CHARSET "UTF-8";
+
+/* 自定义图片 */
+.ztree li span.button.pIconMain_ico_open {
+	margin-right: 2px;
+	background: url(../img/all_icon.png) no-repeat scroll 0 0 transparent;
+	background-position: -30px -272px;
+	vertical-align: top;
+	*vertical-align: middle
+}
+
+/*不显示 +/- 开关*/
+.ztree li span.button.switch.level0 {
+	visibility: hidden;
+	width: 1px;
+}
+
+.ztree li ul.level0 {
+	padding: 0;
+	background: none;
+}
