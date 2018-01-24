@@ -13,8 +13,8 @@ var setting = {
 	},
 	data : {
 		keep : {
-			parent : true,
-			leaf : true
+			parent : false,
+			leaf : false
 		},
 		simpleData : {
 			enable : true
@@ -84,10 +84,10 @@ function getTime() {
 	return (h + ":" + m + ":" + s + " " + ms);
 }
 
+// 增加节点
 var newCount = 1;
 function add(e) {
-	var zTree = $.fn.zTree.getZTreeObj("treeDemo"), isParent = e.data.isParent, nodes = zTree
-			.getSelectedNodes(), treeNode = nodes[0];
+	var zTree = $.fn.zTree.getZTreeObj("folderTree"), isParent = e.data.isParent, nodes = zTree.getSelectedNodes(), treeNode = nodes[0];
 	if (treeNode) {
 		treeNode = zTree.addNodes(treeNode, {
 			id : (100 + newCount),

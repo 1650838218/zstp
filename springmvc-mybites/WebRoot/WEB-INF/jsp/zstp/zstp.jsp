@@ -1,20 +1,24 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/zstp.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/style.css"/>
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/plugin/ztreev3.5/css/zTreeStyle/zTreeStyle.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/ztreeTest/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/ztreeTest/css/ace.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/ztreeTest/css/global.css">
+	<!-- <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/plugin/ztreev3.5/css/zTreeStyle/zTreeStyle.css"/> -->
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/jquery/jquery-1.8.3.min.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/ztreev3.5/js/jquery.ztree.core.js"></script>
+	<!-- <script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/ztreev3.5/js/jquery.ztree.core.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/ztreev3.5/js/jquery.ztree.excheck.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/ztreev3.5/js/jquery.ztree.exedit.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/zstp/js/ztree.js"></script>
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/ztree.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/ztree.css"/> -->
+	<script src="<%=request.getContextPath() %>/resources/zstp/ztreeTest/js/jquery.ztree.all.js"></script>
+	<script src="<%=request.getContextPath() %>/resources/zstp/ztreeTest/js/user.js"></script>
 	<div id="rngFrameXe" style="background-color:#ededed; padding:6px 10px 6px 10px; min-width:1000px; width:expression((document.body.clientWidth < 1000) ? '1000px':'100%')">
 		<div id="divDocument" style="height: 500px;">
 			<div id="divLeft" style="">
 				<div id="divFolderFrame" style="height: 502px; display: block;">
 					<div id="leftTopMenu">
-						<div class="spFileBt2" id="divViewStyleExt" onclick="folderNew(event);" style="margin-left:6px; height:30px;" title="新建文件夹"><span id="gicon" class="icon" style="background-position :-0px -330px;"></span>新建</div>
+						<div class="spFileBt2" id="addLeaf" style="margin-left:6px; height:30px;" title="新建文件夹"><span id="gicon" class="icon" style="background-position :-0px -330px;"></span>新建</div>
 						<div class="spFileBt2" id="divViewStyleExt" onclick="folderNew(event);" title="重命名"><span id="gicon" class="icon" style="background-position : -30px -330px;"></span>重命名</div>
 						<div class="spFileBt2" id="divViewStyleExt" onclick="folderNew(event);" title="删除"><span id="gicon" class="icon" style="background-position : -120px -330px;"></span>删除</div>
 						<div class="spFileBt2" id="divViewStyleExt" onclick="folderNew(event);" title="查询"><span id="gicon" class="icon" style="background-position : -90px -360px;"></span>查询</div>
@@ -24,8 +28,8 @@
 							</div>
 						</div>
 					</div>
-					<div id="divExplore" style="position: absolute; overflow: auto; margin-left: 4px; margin-top: 4px; color: rgb(0, 0, 0); height: 472px; top: 25px; width: 316px;" onmouseup="showFolderMenu(event);">
-						<ul id="folderTree" class="ztree"></ul>
+					<div id="divExplore" style="position: absolute; overflow: auto; margin-left: 4px; margin-top: 4px; color: rgb(0, 0, 0); height: 472px; top: 25px; width: 316px;">
+						<ul id="tree" class="ztree tree"></ul>
 					</div>
 				</div>
 				<div id="divFF2" style="display: none;">
