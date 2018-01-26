@@ -4,15 +4,9 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/ztreeTest/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/ztreeTest/css/ace.css">
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/ztreeTest/css/global.css">
-	<!-- <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/plugin/ztreev3.5/css/zTreeStyle/zTreeStyle.css"/> -->
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/jquery/jquery-1.8.3.min.js"></script>
-	<!-- <script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/ztreev3.5/js/jquery.ztree.core.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/ztreev3.5/js/jquery.ztree.excheck.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/ztreev3.5/js/jquery.ztree.exedit.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/zstp/js/ztree.js"></script>
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/ztree.css"/> -->
-	<script src="<%=request.getContextPath() %>/resources/zstp/ztreeTest/js/jquery.ztree.all.js"></script>
-	<script src="<%=request.getContextPath() %>/resources/zstp/ztreeTest/js/user.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/zstp/ztreeTest/js/jquery.ztree.all.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/zstp/ztreeTest/js/mytree.js"></script>
 	<div id="rngFrameXe" style="background-color:#ededed; padding:6px 10px 6px 10px; min-width:1000px; width:expression((document.body.clientWidth < 1000) ? '1000px':'100%')">
 		<div id="divDocument" style="height: 500px;">
 			<div id="divLeft" style="">

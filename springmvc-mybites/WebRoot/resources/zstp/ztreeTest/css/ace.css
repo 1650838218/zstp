@@ -15416,7 +15416,6 @@ div.ColVis_collectionBackground {
   bottom: 16px;
   left: 0;
   z-index: 1;
-  border: 1px dotted #67b2dd;
   border-width: 0 0 0 1px;
 }
 .tree .tree-branch-name,

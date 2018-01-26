@@ -12,6 +12,7 @@ $(function(){
             selectMulti:false,//表示禁止多选
             addHoverDom: addHoverDom, //当鼠标移动到节点上时，显示用户自定义控件  
             removeHoverDom: removeHoverDom, //离开节点时的操作
+            dblClickExpand: dblClickExpand,// 固定根节点
         },
         check:{//表示tree的节点在点击时的相关设置
             enable:true,//是否显示radio/checkbox
@@ -41,6 +42,12 @@ $(function(){
             ADDNODE: "fa-plus-square",
         }
     };
+    
+    // 固定根节点
+    function dblClickExpand(treeId, treeNode) {
+    	return treeNode.level > 0;
+    }
+    
     // 增加节点事件
     function addHoverDom(treeId, treeNode) {  
         var sObj = $("#" + treeNode.tId + "_span"); //获取节点信息  

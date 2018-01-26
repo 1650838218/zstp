@@ -24,7 +24,6 @@
     bottom: 0px;
     left: 0px;
     z-index: 1;
-    border: 1px dotted #67B2DD;
     border-width: 0 0 0 1px;
 }
 .ztree ul{
@@ -34,7 +33,6 @@
     margin-left: 6px;
     top: -6px;
     padding-top: 10px;
-    padding-bottom: 10px;
 }
 .ztree li{
     position:relative!important;
@@ -49,7 +47,7 @@
     padding:0;
     padding-left: 10px;
 }
-/* 复选框样式 */
+/* 澶嶉�妗嗘牱寮�*/
 .ztree .chk.ace-icon{
     color: #F9E8CE;
     width: 13px;
@@ -65,7 +63,7 @@
     box-shadow: 0 1px 2px rgba(0,0,0,.05);
     margin:0 6px;
 }
-/* 复选框样式 */
+/* 澶嶉�妗嗘牱寮�*/
 .ztree .chk.fa.fa-check{
     background-color: #F9A021;
     border-color: #F9A021;
@@ -77,15 +75,15 @@
     top: 2px;
     position: relative;
 }
-/* 折叠时文件夹的颜色 */
+/* 鎶樺彔鏃舵枃浠跺す鐨勯鑹�*/
 .fa-folder{
     color:#FF892A!important;
 }
-/* 打开时文件夹的颜色 */
+/* 鎵撳紑鏃舵枃浠跺す鐨勯鑹�*/
 .fa-folder-open{
     color:brown!important;
 }
-/* 最后一项开头图标颜色 */
+/* 鏈�悗涓�」寮�ご鍥炬爣棰滆壊 */
 .a_docu{
     color:#478FCA!important;
 }
@@ -100,7 +98,6 @@
     left: -9px;
     width: 20px;
     height: 0;
-    border-top: 1px dotted #67B2DD;
     z-index: 1;
 }
 .ztree ul:before{
@@ -110,7 +107,6 @@
     bottom: 24px;
     left: 0;
     z-index: 1;
-    border: 1px dotted #67B2DD;
     border-width: 0 0 0 1px;
 }
 .ztree li a{
