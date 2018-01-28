@@ -15,12 +15,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
+		<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/jquery/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/layer-v3.1.1/layer.js"></script>
   </head>
   
   <body>
-    This is my JSP page. <br>
+    <script type="text/javascript">
+    	layer.alert("你哈",{icon:2});
+    </script>
   </body>
 </html>

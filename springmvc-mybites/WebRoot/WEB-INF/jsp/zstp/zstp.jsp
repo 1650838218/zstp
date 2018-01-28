@@ -1,13 +1,12 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/zstp.css"/>
+ 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/zstp.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/style.css"/>
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/ztreeTest/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/ztreeTest/css/ace.css">
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/ztreeTest/css/global.css">
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/jquery/jquery-1.8.3.min.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/zstp/ztreeTest/js/jquery.ztree.all.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/zstp/ztreeTest/js/mytree.js"></script>
-	<div id="rngFrameXe" style="background-color:#ededed; padding:6px 10px 6px 10px; min-width:1000px; width:expression((document.body.clientWidth < 1000) ? '1000px':'100%')">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/ace.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/global.css"> 
+ 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/zstp/js/jquery.ztree.all.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/zstp/js/mytree.js"></script> 
+ 	<div id="rngFrameXe" style="background-color:#ededed; padding:6px 10px 6px 10px; min-width:1000px; width:expression((document.body.clientWidth < 1000) ? '1000px':'100%')">
 		<div id="divDocument" style="height: 500px;">
 			<div id="divLeft" style="">
 				<div id="divFolderFrame" style="height: 502px; display: block;">
@@ -43,10 +42,12 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> 
 	
 	<script type="text/javascript">
-		$(document).ready(function(){
+		/* $(document).ready(function(){
 			$(".nav_3").attr("id","topnav_current");
-		});
+			
+		}); */
+		/* layer.alert("你好",{icon:2}); */
 	</script>

@@ -10,16 +10,22 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd 
 				http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd 
 				http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-4.3.xsd">
+	<!-- 必须放在第一个，否则 数据校验不起作用 -->    
+	<mvc:annotation-driven validator="validator">
+		<mvc:message-converters>  
+        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>  
+        <bean class="org.springframework.http.converter.StringHttpMessageConverter">  
+            <property name="supportedMediaTypes">  
+                <list>  
+                    <value>text/plain;charset=utf-8</value>  
+                    <value>text/html;charset=UTF-8</value>  
+                </list>  
+            </property>  
+        </bean>  
+    </mvc:message-converters> 
+	</mvc:annotation-driven>
 	
-	<!-- 激活Spring注解方式：自动扫描，并注入Controller. -->
-	<context:component-scan base-package="com">
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
-		<context:include-filter type="annotation"
-			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
-	</context:component-scan>
-
-	<!-- @ResponseBody 返回的json字符串 默认编码是ISO-8859-1，该配置是将ISO-8859-1改为utf-8，此配置必须放在 <mvc:annotation-driven/> 之前-->
+	<!-- @ResponseBody 返回的json字符串 默认编码是ISO-8859-1，该配置是将ISO-8859-1改为utf-8，此配置必须放在 <mvc:annotation-driven/> 之前
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
             <list>
@@ -37,8 +43,16 @@
                 </bean>
             </list>
         </property>
-    </bean>
-	
+    </bean>-->
+
+	<!-- 激活Spring注解方式：自动扫描，并注入Controller. -->
+	<context:component-scan base-package="com">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+
 	<!-- 
 		<mvc:default-servlet-handler/>
 		<mvc:annotation-driven />
@@ -54,7 +68,29 @@
 		这个bean能够处理@RequestMapping这个注解。
 	 -->
 	<mvc:default-servlet-handler/><!-- 由WEB服务器默认的Servlet来处理静态资源 -->
-	<mvc:annotation-driven/>
+	
+	<!-- 实体 校验器 -->  
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">  
+	    <!-- 校验器-->  
+	    <property name="providerClass" value="org.hibernate.validator.HibernateValidator" />  
+	    <!-- 指定校验使用的资源文件，在文件中配置校验的错误信息，如果不指定则默认使用classpath下的ValidationMessages.properties -->   
+	    <property name="validationMessageSource" ref="messageSource" />  
+	</bean>  
+	
+	<!-- 校验错误信息配置文件 -->  
+	<bean id="messageSource"  
+	    class="org.springframework.context.support.ReloadableResourceBundleMessageSource">  
+	    <!-- 资源文件名-->  
+	    <property name="basenames">     
+	         <list>      
+	           <value>classpath:config/CustomValidationMessages</value>   
+	         </list>     
+	    </property>  
+	    <!-- 资源文件编码格式 -->  
+	    <property name="fileEncodings" value="utf-8" />  
+	    <!-- 对资源文件内容缓存时间，单位秒 -->  
+	    <property name="cacheSeconds" value="120" />  
+	</bean> 
 	
 	<!-- 映射静态资源文件 -->
 	<mvc:resources mapping="/static/**" location="/,classpath:/META-INF/static/" />
