@@ -1,28 +1,28 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
  	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/zstp.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/style.css"/>
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/ace.css">
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/global.css"> 
- 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/zstp/js/jquery.ztree.all.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/zstp/js/mytree.js"></script> 
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/ztree.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/plugin/ztree-v3.5/css/zTreeStyle/zTreeStyle.css"/>
+ 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/ztree-v3.5/js/jquery.ztree.core.js"></script>
+ 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/ztree-v3.5/js/jquery.ztree.excheck.js"></script>
+ 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/ztree-v3.5/js/jquery.ztree.exedit.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/zstp/js/ztree.js"></script> 
  	<div id="rngFrameXe" style="background-color:#ededed; padding:6px 10px 6px 10px; min-width:1000px; width:expression((document.body.clientWidth < 1000) ? '1000px':'100%')">
 		<div id="divDocument" style="height: 500px;">
 			<div id="divLeft" style="">
 				<div id="divFolderFrame" style="height: 502px; display: block;">
 					<div id="leftTopMenu">
-						<div class="spFileBt2" id="addLeaf" style="margin-left:6px; height:30px;" title="新建文件夹"><span id="gicon" class="icon" style="background-position :-0px -330px;"></span>新建</div>
-						<div class="spFileBt2" id="divViewStyleExt" onclick="folderNew(event);" title="重命名"><span id="gicon" class="icon" style="background-position : -30px -330px;"></span>重命名</div>
-						<div class="spFileBt2" id="divViewStyleExt" onclick="folderNew(event);" title="删除"><span id="gicon" class="icon" style="background-position : -120px -330px;"></span>删除</div>
-						<div class="spFileBt2" id="divViewStyleExt" onclick="folderNew(event);" title="查询"><span id="gicon" class="icon" style="background-position : -90px -360px;"></span>查询</div>
-						<div style="float:right; height:30px; padding-top:5px;">
+						<div style="float:left; margin-left:6px; height:30px; padding-top:5px;">
+							<span id="gicon" class="icon" style="background-position: -270px -239px; margin-right:2px;"></span><span title="浏览、管理文件夹,增加、删除、转移文件夹" style="cursor:pointer;">文档管理</span>
+						</div>
+						<div style="float:right; width:60px; height:30px; padding-top:5px;">
 							<div onclick="hideFolder();" style="float:left;">
-								<span id="gicon" class="icon" style="background-position: -210px -239px;  cursor: pointer;" title="隐藏文件夹"></span>
+								<span id="gicon" class="icon" style="background-position: -210px -239px;  cursor: pointer;" title="隐藏文件夹"></span>隐藏
 							</div>
 						</div>
 					</div>
 					<div id="divExplore" style="position: absolute; overflow: auto; margin-left: 4px; margin-top: 4px; color: rgb(0, 0, 0); height: 472px; top: 25px; width: 316px;">
-						<ul id="tree" class="ztree tree"></ul>
+						<ul id="treeDemo" class="ztree"></ul>
 					</div>
 				</div>
 				<div id="divFF2" style="display: none;">

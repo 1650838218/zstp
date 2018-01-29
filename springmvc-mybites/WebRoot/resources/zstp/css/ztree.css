@@ -1,14 +1,14 @@
 @CHARSET "UTF-8";
 
-/* 自定义图片 */
+/* 自定义图片
 .ztree li span.button.pIconMain_ico_open {
 	margin-right: 2px;
 	background: url(../img/1_open.png) no-repeat scroll 0 0 transparent;
 	vertical-align: top;
 	*vertical-align: middle
-}
+} */
 
-/*不显示 +/- 开关*/
+/*不显示 +/- 开关
 .ztree li span.button.switch.level0 {
 	visibility: hidden;
 	width: 1px;
@@ -17,4 +17,13 @@
 .ztree li ul.level0 {
 	padding: 0;
 	background: none;
+}*/
+
+/* 新建文件夹 */
+.ztree li span.button.add {
+	margin-left: 2px;
+	margin-right: -1px;
+	background-position: -144px 0;
+	vertical-align: top;
+	*vertical-align: middle
 }

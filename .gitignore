@@ -17,5 +17,6 @@ deploy_key_rsa
 
 *.class
 .metadata
+jdbc.config.properties
 apache-tomcat-7.0.37
 apache-tomcat-7.0.41

@@ -25,4 +25,12 @@ public interface TreeNodeService {
 	 * @return
 	 */
 	public boolean isExist(String id);
+
+	/**
+	 * TODO 初始化zNodes
+	 * @author 周俊林
+	 * @Date 2018-1-29 下午4:28:00
+	 * @return
+	 */
+	public String initNodes();
 }

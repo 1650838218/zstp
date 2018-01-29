@@ -94,4 +94,27 @@ public class ZstpAction {
         log.info(json.toString());
 		return json.toString();
 	}
+	
+	
+	/**
+	 * TODO 初始化zNodes
+	 * @author 周俊林
+	 * @Date 2018-1-29 下午4:15:04
+	 * @return
+	 */
+	@RequestMapping(value = "/initNodes", method = RequestMethod.GET)
+	@ResponseBody
+	public String initNodes() {
+		ObjectNode json = new JsonNodeFactory(false).objectNode();
+		try {
+			String zNodes = treeNodeService.initNodes();
+			json.put("success", true);
+			json.put("zNodes", zNodes);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			json.put("success", false);
+		}
+		return json.toString();
+	}
+	
 }

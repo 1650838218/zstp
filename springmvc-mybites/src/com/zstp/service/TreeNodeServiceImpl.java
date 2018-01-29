@@ -1,12 +1,14 @@
 package com.zstp.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zstp.entity.TreeNode;
 import com.zstp.repository.TreeNodeRepository;
 
@@ -50,6 +52,24 @@ public class TreeNodeServiceImpl implements TreeNodeService {
 			log.error(e.getMessage(),e);
 			return false;
 		}
+	}
+
+	/**
+	 * TODO 初始化zNodes
+	 * @author 周俊林
+	 * @Date 2018-1-29 下午4:28:24
+	 * @return
+	 */
+	@Override
+	public String initNodes() {
+		try {
+			List<TreeNode> treeNodeList = treeNodeRepository.findAll();// 查询所有节点
+			ObjectMapper mapper = new ObjectMapper();
+			return mapper.writeValueAsString(treeNodeList);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return null;
 	}
 
 }

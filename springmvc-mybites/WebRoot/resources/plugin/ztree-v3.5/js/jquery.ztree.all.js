@@ -10,25 +10,7 @@
  *
  * email: hunter.z@263.net
  * Date: 2017-11-11
- *
- *   ******* 修改 ztree 默认配置*******
- *   
- *   添加折叠图标： 1319行
- *   清除最后一项折叠图标： 1336行
- *
- *   添加父节点图标： 1293行
- *   子节点图标： 1300行
- *   
- *   添加复选框图标：2400行
- *   
- *   将当前项类名改为添加到li curSelectedNode 1622行
- *   取消当前项父级li类名 curSelectedNode 1089行
- *
- *   修改编辑图标 3396行
- *   修改删除图标 3417行
- *   
  */
-
 (function ($) {
     var settings = {}, roots = {}, caches = {},
         //default consts of core
@@ -65,33 +47,14 @@
                 BOTTOM: "bottom",
                 NOLINE: "noline",
                 LINE: "line"
-            }, 
+            },
             folder: {
                 OPEN: "open",
-                CLOSE:"close",
+                CLOSE: "close",
                 DOCU: "docu"
             },
             node: {
                 CURSELECTED: "curSelectedNode"
-            },
-            usericon:{
-                // 折叠状态
-                CLOSE: "tree-plus",
-                OPEN: "tree-minus",
-                // 父节点图标
-                FATHSERNODE: "fa-folder",
-                FATHSERNODEOPEN: "fa-folder-open",
-                // 子节点图标
-                CHILDRENNODE: "fa-book",
-                // 复选框图标
-                FACHECK: "fa-check",
-                FACHECKED: "fa-times",
-                // 编辑图标
-                EDIT: "fa-pencil-square-o",
-                // 移除图标
-                REMOVE: "fa-eraser",
-                // 增加节点图标
-                ADDNODE: "fa-plus-square"
             }
         },
         //default setting of core
@@ -1112,8 +1075,7 @@
                 for (i = list.length - 1; i >= 0; i--) {
                     n = list[i];
                     if (node === n || (!node && (!excludeNode || excludeNode !== n))) {
-                        // 取消当前项父级li类名 curSelectedNode
-                        $$(n, consts.id.A, setting).parent("li").removeClass(consts.node.CURSELECTED);
+                        $$(n, consts.id.A, setting).removeClass(consts.node.CURSELECTED);
                         if (node) {
                             data.removeSelectedNode(setting, node);
                             break;
@@ -1217,7 +1179,6 @@
                     }
 
                     if (node.open) {
-                         
                         view.replaceSwitchClass(node, switchObj, consts.folder.OPEN);
                         view.replaceIcoClass(node, icoObj, consts.folder.OPEN);
                         if (animateFlag == false || setting.view.expandSpeed == "") {
@@ -1327,15 +1288,12 @@
                 return (fontCss && ((typeof fontCss) != "function")) ? fontCss : {};
             },
             makeNodeIcoClass: function (setting, node) {
-                // 添加 文件夹图标
-                var icoCss = [consts.usericon.FATHSERNODE+" "+"icon-folder ace-icon fa ico"];
+                var icoCss = ["ico"];
                 if (!node.isAjaxing) {
                     icoCss[0] = (node.iconSkin ? node.iconSkin + "_" : "") + icoCss[0];
                     if (node.isParent) {
-                        icoCss.push(node.open ? consts.folder.OPEN: consts.folder.CLOSE); 
+                        icoCss.push(node.open ? consts.folder.OPEN : consts.folder.CLOSE);
                     } else {
-                        // 子节点图标
-                        icoCss = [consts.usericon.CHILDRENNODE+" "+"ace-icon fa a"];
                         icoCss.push(consts.folder.DOCU);
                     }
                 }
@@ -1353,14 +1311,13 @@
                 return icoStyle.join('');
             },
             makeNodeLineClass: function (setting, node) {
-                // 添加折叠图标
-                var lineClass = [consts.usericon.CLOSE+" icon-folder ace-icon root"];
-                if (setting.view.showLine) {
+                var lineClass = [];
+                if (setting.view.showLine) {// 是否显示节点间连线
                     if (node.level == 0 && node.isFirstNode && node.isLastNode) {
-                        lineClass.push(consts.line.ROOT);
+                        lineClass.push(consts.line.ROOT);// 有且只有一个节点
                     } else if (node.level == 0 && node.isFirstNode) {
-                        lineClass.push(consts.line.ROOTS);
-                    } else if (node.isLastNode) {
+                        lineClass.push(consts.line.ROOTS);// 有多个节点并且是根节点
+                    } else if (node.isLastNode) {// 是最后一个节点
                         lineClass.push(consts.line.BOTTOM);
                     } else {
                         lineClass.push(consts.line.CENTER);
@@ -1371,8 +1328,6 @@
                 if (node.isParent) {
                     lineClass.push(node.open ? consts.folder.OPEN : consts.folder.CLOSE);
                 } else {
-                    // 为最后一项时清除折叠图标
-                    lineClass = [];
                     lineClass.push(consts.folder.DOCU);
                 }
                 return view.makeNodeLineClassEx(node) + lineClass.join('_');
@@ -1591,16 +1546,7 @@
                         tmpList[tmpList.length - 1] = newName;
                         break;
                 }
-                // 动态改变书籍样式
-                if( obj.hasClass(consts.usericon.FATHSERNODE) == true){
-                    obj.removeClass(consts.usericon.FATHSERNODE).addClass(consts.usericon.FATHSERNODEOPEN);
-                    return;
-                }else{
-                    obj.removeClass(consts.usericon.FATHSERNODEOPEN).addClass(consts.usericon.FATHSERNODE);
-                    return;
-                }
                 obj.attr("class", tmpList.join("_"));
-
             },
             replaceSwitchClass: function (node, obj, newName) {
                 if (!obj) return;
@@ -1621,15 +1567,6 @@
                         tmpList[1] = newName;
                         break;
                 }
-
-                // 动态改变折叠样式
-                if( obj.hasClass(consts.usericon.CLOSE) == true){
-                    obj.removeClass(consts.usericon.CLOSE).addClass(consts.usericon.OPEN);
-                    return;
-                }else{
-                    obj.removeClass(consts.usericon.OPEN).addClass(consts.usericon.CLOSE);
-                    return;
-                }
                 obj.attr("class", tmpList.join("_"));
                 if (newName !== consts.folder.DOCU) {
                     obj.removeAttr("disabled");
@@ -1641,8 +1578,7 @@
                 if (!addFlag) {
                     view.cancelPreSelectedNode(setting, null, node);
                 }
-                // 将当前项类名改为添加到 li curSelectedNode
-                $$(node, consts.id.A, setting).parent("li").addClass(consts.node.CURSELECTED);
+                $$(node, consts.id.A, setting).addClass(consts.node.CURSELECTED);
                 data.addSelectedNode(setting, node);
                 setting.treeObj.trigger(consts.event.SELECTED, [setting.treeId, node]);
             },
@@ -2039,7 +1975,7 @@
 	_setting = {
 		check: {
 			enable: false,
-			autoCheckTrigger: true,
+			autoCheckTrigger: false,
 			chkStyle: _consts.checkbox.STYLE,
 			nocheckInherit: false,
 			chkDisabledInherit: false,
@@ -2435,13 +2371,9 @@
 			} else {
 				fullStyle = node[checkedKey] ? ((node.check_Child_State === 2 || node.check_Child_State === -1) ? c.FULL:c.PART) : ((node.check_Child_State < 1)? c.FULL:c.PART);
 			}
-            // 添加复选框
-            var a = consts.usericon.FACHECK+" "+"icon-item ace-icon fa";
-            var b = consts.usericon.FACHECKED+" "+"icon-item ace-icon fa";
-            var chkName = setting.check.chkStyle + "_" + (node[checkedKey] ? c.TRUE+ "_" + fullStyle+" "+a : c.FALSE+ "_" + fullStyle+" "+b) ;
-            chkName = chkName;
-            return consts.className.BUTTON + " " + c.DEFAULT + " " + chkName;
-
+			var chkName = setting.check.chkStyle + "_" + (node[checkedKey] ? c.TRUE : c.FALSE) + "_" + fullStyle;
+			chkName = (node.check_Focus && node.chkDisabled !== true) ? chkName + "_" + c.FOCUS : chkName;
+			return consts.className.BUTTON + " " + c.DEFAULT + " " + chkName;
 		},
 		repairAllChk: function(setting, checked) {
 			if (setting.check.enable && setting.check.chkStyle === consts.checkbox.STYLE) {
@@ -3416,13 +3348,11 @@
 				return;
 			}
 			var aObj = $$(node, consts.id.A, setting),
-            // 修改编辑图标样式
-			editStr = "<span class='" + consts.className.BUTTON +" "+consts.usericon.EDIT + " ace-icon fa red edit' id='" + node.tId + consts.id.EDIT + "' title='"+tools.apply(setting.edit.renameTitle, [setting.treeId, node], setting.edit.renameTitle)+"' treeNode"+consts.id.EDIT+" style='display:none;padding-left:5px;padding-right:2px;font-size: 16px;position: relative;top: 3px;'></span>";
+			editStr = "<span class='" + consts.className.BUTTON + " edit' id='" + node.tId + consts.id.EDIT + "' title='"+tools.apply(setting.edit.renameTitle, [setting.treeId, node], setting.edit.renameTitle)+"' treeNode"+consts.id.EDIT+" style='display:none;'></span>";
 			aObj.append(editStr);
 
 			$$(node, consts.id.EDIT, setting).bind('click',
 				function() {
-
 					if (!tools.uCanDo(setting) || tools.apply(setting.callback.beforeEditName, [setting.treeId, node], true) == false) return false;
 					view.editNode(setting, node);
 					return false;
@@ -3437,8 +3367,7 @@
 				return;
 			}
 			var aObj = $$(node, consts.id.A, setting),
-            // 修改移除图标样式
-			removeStr = "<span class='" + consts.className.BUTTON +" "+consts.usericon.REMOVE + " ace-icon fa blue remove' id='" + node.tId + consts.id.REMOVE + "' title='"+tools.apply(setting.edit.removeTitle, [setting.treeId, node], setting.edit.removeTitle)+"' treeNode"+consts.id.REMOVE+" style='display:none;font-size: 17px;position: relative;top: 3px;color:#1d9d74;'></span>";
+			removeStr = "<span class='" + consts.className.BUTTON + " remove' id='" + node.tId + consts.id.REMOVE + "' title='"+tools.apply(setting.edit.removeTitle, [setting.treeId, node], setting.edit.removeTitle)+"' treeNode"+consts.id.REMOVE+" style='display:none;'></span>";
 			aObj.append(removeStr);
 
 			$$(node, consts.id.REMOVE, setting).bind('click',

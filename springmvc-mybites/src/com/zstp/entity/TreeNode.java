@@ -9,6 +9,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 /**
  * TODO 树节点实体类
@@ -60,6 +62,7 @@ public class TreeNode {
 	}
 
 	@Column(name = "cre_time")
+	@JsonIgnore//将java bean转换成json时会忽略此属性
 	public Date getCreTime() {
 		return creTime;
 	}
@@ -69,6 +72,7 @@ public class TreeNode {
 	}
 
 	@Column(name = "update_time")
+	@JsonIgnore
 	public Date getUpdateTime() {
 		return updateTime;
 	}

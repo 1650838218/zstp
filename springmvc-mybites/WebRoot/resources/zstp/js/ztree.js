@@ -1,49 +1,50 @@
-// 构造 ztree
 var setting = {
 	view : {
-		selectedMulti : false,
-		showLine: false,
-		nameIsHTML: true,
-		dblClickExpand: dblClickExpand
+		addHoverDom : addHoverDom,
+		removeHoverDom : removeHoverDom,
+		selectedMulti : false
 	},
 	edit : {
 		enable : true,
-		showRemoveBtn : false,
-		showRenameBtn : false
+		editNameSelectAll : true,
+		showRemoveBtn : showRemoveBtn,
+		showRenameBtn : showRenameBtn
 	},
 	data : {
-		keep : {
-			parent : false,
-			leaf : false
-		},
 		simpleData : {
 			enable : true
 		}
 	},
 	callback : {
 		beforeDrag : beforeDrag,
+		beforeEditName : beforeEditName,
 		beforeRemove : beforeRemove,
 		beforeRename : beforeRename,
-		onRemove : onRemove
+		onRemove : onRemove,
+		onRename : onRename
 	}
 };
 
-var zNodes =[
-			{ id:01, pId:00, name:"知识图谱", open:true, iconSkin:"pIconMain"},
-			{ id:0101, pId:01, name:"java web", open:true},
-			{ id:010101, pId:0101, name:"前端"},
-			{ id:0102, pId:01, name:"数据库"},
-			{ id:010201, pId:0102, name:"oracle"},
-			{ id:010202, pId:0102, name:"mysql"}
-		];
-var log, className = "dark";
+var zNodes =[{"id":"root","pId":"","name":"1111"}];
 
-// 仅 level=0 的父节点取消双击展开的功能
-function dblClickExpand(treeId, treeNode) {
-	return treeNode.level > 0;
+var log, className = "dark";
+function beforeDrag(treeId, treeNodes) {
+	return false;
 }
 
-function beforeDrag(treeId, treeNodes) {
+function beforeEditName(treeId, treeNode) {
+	className = (className === "dark" ? "" : "dark");
+	showLog("[ " + getTime() + " beforeEditName ]&nbsp;&nbsp;&nbsp;&nbsp; "
+			+ treeNode.name);
+	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+	zTree.selectNode(treeNode);
+	setTimeout(function() {
+		if (confirm("进入节点 -- " + treeNode.name + " 的编辑状态吗？")) {
+			setTimeout(function() {
+				zTree.editName(treeNode);
+			}, 0);
+		}
+	}, 0);
 	return false;
 }
 
@@ -51,6 +52,8 @@ function beforeRemove(treeId, treeNode) {
 	className = (className === "dark" ? "" : "dark");
 	showLog("[ " + getTime() + " beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; "
 			+ treeNode.name);
+	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+	zTree.selectNode(treeNode);
 	return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
 }
 
@@ -59,17 +62,61 @@ function onRemove(e, treeId, treeNode) {
 			+ treeNode.name);
 }
 
-function beforeRename(treeId, treeNode, newName) {
+function beforeRename(treeId, treeNode, newName, isCancel) {
+	className = (className === "dark" ? "" : "dark");
+	showLog((isCancel ? "<span style='color:red'>" : "") + "[ " + getTime()
+			+ " beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name
+			+ (isCancel ? "</span>" : ""));
 	if (newName.length == 0) {
-		alert("节点名称不能为空.");
-		var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 		setTimeout(function() {
-			zTree.editName(treeNode)
-		}, 10);
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			zTree.cancelEditName();
+			alert("节点名称不能为空.");
+		}, 0);
 		return false;
 	}
 	return true;
 }
+
+//文件夹名称编辑后的回调
+function onRename(event, treeId, treeNode, isCancel) {
+	//将新节点添加到数据库中  
+    $.ajax({
+    	url:"/oa/zstp/saveNode",
+    	data:{id:treeNode.id,pId:treeNode.pId,name:treeNode.name},
+    	dataType:"json",
+    	type:"post",
+    	success:function(data) {
+    		var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+        	var json = JSON.parse(data);
+            if (!json.success) {
+            	layer.alert(json.error, {icon: 2}, function(index){
+    				if (json.flag == "add") {
+    					// 删除新增加的文件夹
+    					zTree.removeNode(treeNode);
+    				} else if (json.flag == "update"){
+    					// 编辑
+    					zTree.editName(treeNode);
+    				}
+    				layer.close(index);
+            	});
+            }
+    	},
+    	error:function() {
+    		layer.alert("失败！", {icon:2});
+    	}
+    });
+}
+
+function showRemoveBtn(treeId, treeNode) {
+	return !treeNode.isFirstNode;
+}
+
+function showRenameBtn(treeId, treeNode) {
+	return !treeNode.isLastNode;
+}
+
+
 function showLog(str) {
 	if (!log)
 		log = $("#log");
@@ -78,78 +125,70 @@ function showLog(str) {
 		log.get(0).removeChild(log.children("li")[0]);
 	}
 }
+
+
 function getTime() {
 	var now = new Date(), h = now.getHours(), m = now.getMinutes(), s = now
 			.getSeconds(), ms = now.getMilliseconds();
 	return (h + ":" + m + ":" + s + " " + ms);
 }
 
-// 增加节点
 var newCount = 1;
-function add(e) {
-	var zTree = $.fn.zTree.getZTreeObj("folderTree"), isParent = e.data.isParent, nodes = zTree.getSelectedNodes(), treeNode = nodes[0];
-	if (treeNode) {
-		treeNode = zTree.addNodes(treeNode, {
-			id : (100 + newCount),
-			pId : treeNode.id,
-			isParent : isParent,
-			name : "new node" + (newCount++)
+function addHoverDom(treeId, treeNode) {
+	var sObj = $("#" + treeNode.tId + "_span");
+	if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0)
+		return;
+	var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+			+ "' title='add node' onfocus='this.blur();'></span>";
+	sObj.after(addStr);
+	var btn = $("#addBtn_" + treeNode.tId);
+	if (btn)
+		btn.bind("click", function() {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			var id = "";
+            if (treeNode.isParent) {
+            	id = treeNode.children.length + 1;
+            	if (id <= 9) {
+            		id = '0' + id;
+            	}
+            } else {
+            	id = '01';
+            }
+            var newNode = zTree.addNodes(treeNode, {id:treeNode.id + id, pId:treeNode.id, name:"NewNode"}); //页面上添加节点  
+            if (newNode) {
+            	zTree.editName(newNode[0]);
+            }
 		});
-	} else {
-		treeNode = zTree.addNodes(null, {
-			id : (100 + newCount),
-			pId : 0,
-			isParent : isParent,
-			name : "new node" + (newCount++)
-		});
-	}
-	if (treeNode) {
-		zTree.editName(treeNode[0]);
-	} else {
-		alert("叶子节点被锁定，无法增加子节点");
-	}
 };
 
-function edit() {
-	var zTree = $.fn.zTree.getZTreeObj("treeDemo"), nodes = zTree
-			.getSelectedNodes(), treeNode = nodes[0];
-	if (nodes.length == 0) {
-		alert("请先选择一个节点");
-		return;
-	}
-	zTree.editName(treeNode);
+
+function removeHoverDom(treeId, treeNode) {
+	$("#addBtn_" + treeNode.tId).unbind().remove();
 };
 
-function remove(e) {
-	var zTree = $.fn.zTree.getZTreeObj("treeDemo"), nodes = zTree
-			.getSelectedNodes(), treeNode = nodes[0];
-	if (nodes.length == 0) {
-		alert("请先选择一个节点");
-		return;
-	}
-	var callbackFlag = $("#callbackTrigger").attr("checked");
-	zTree.removeNode(treeNode, callbackFlag);
-};
 
-function clearChildren(e) {
-	var zTree = $.fn.zTree.getZTreeObj("treeDemo"), nodes = zTree
-			.getSelectedNodes(), treeNode = nodes[0];
-	if (nodes.length == 0 || !nodes[0].isParent) {
-		alert("请先选择一个父节点");
-		return;
-	}
-	zTree.removeChildNodes(treeNode);
-};
+function selectAll() {
+	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+	zTree.setting.edit.editNameSelectAll = $("#selectAll").attr("checked");
+}
 
 $(document).ready(function() {
-	$.fn.zTree.init($("#folderTree"), setting, zNodes);
-	$("#addParent").bind("click", {
-		isParent : true
-	}, add);
-	$("#addLeaf").bind("click", {
-		isParent : false
-	}, add);
-	$("#edit").bind("click", edit);
-	$("#remove").bind("click", remove);
-	$("#clearChildren").bind("click", clearChildren);
-});
+	// 异步加载数据
+	$.ajax({
+		url:"/oa/zstp/initNodes",
+		type:"get",
+		dataType:"json",
+		success:function(data){
+			var json = JSON.parse(data);
+			if (json.success) {
+				$.fn.zTree.init($("#treeDemo"), setting, JSON.parse(json.zNodes));
+				$("#selectAll").bind("click", selectAll);
+			} else {
+				layer.alert("文件夹加载失败！", {icon:2});
+			}
+		},
+		error:function(){
+			layer.alert("文件夹加载失败！", {icon:2});
+		}
+	});
+});//@ sourceURL=ztree.js
