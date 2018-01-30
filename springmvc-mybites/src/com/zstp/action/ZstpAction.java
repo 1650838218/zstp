@@ -117,4 +117,28 @@ public class ZstpAction {
 		return json.toString();
 	}
 	
+	/**
+	 * TODO 删除文件夹
+	 * @author 周俊林
+	 * @Date 2018-1-30 下午2:52:59
+	 * @param nodeId
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteNode", method = RequestMethod.POST)
+	@ResponseBody
+	public String deleteNode(String nodeId) {
+		ObjectNode json = new JsonNodeFactory(false).objectNode();
+		if (StringUtils.isBlank(nodeId)) {
+			json.put("success", false);
+		} else {
+			try {
+				json.put("success", treeNodeService.deleteNode(nodeId));
+			} catch (Exception e) {
+				log.error(e.getMessage(),e);
+				json.put("success", false);
+			}
+		}
+		log.info(json.toString());
+		return json.toString();
+	}
 }

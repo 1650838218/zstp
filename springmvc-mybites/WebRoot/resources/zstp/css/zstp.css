@@ -83,3 +83,26 @@
 	float: left;
 	padding-top: 7px;
 }
+
+.searchArea{
+	float: left;
+	margin-left: 6px;
+	height: 30px;
+	padding-top: 5px;
+}
+
+.searchArea input{
+	background-color: snow;
+	border-radius: 8px;
+	width: 200px;
+}
+
+.searchArea i{
+    font-size: 18px;
+    color:#d5d5d5;
+    cursor:pointer;
+}
+
+.searchArea i:hover{
+    color:#669fc7;
+}

@@ -12,8 +12,9 @@
 			<div id="divLeft" style="">
 				<div id="divFolderFrame" style="height: 502px; display: block;">
 					<div id="leftTopMenu">
-						<div style="float:left; margin-left:6px; height:30px; padding-top:5px;">
-							<span id="gicon" class="icon" style="background-position: -270px -239px; margin-right:2px;"></span><span title="浏览、管理文件夹,增加、删除、转移文件夹" style="cursor:pointer;">文档管理</span>
+						<div class="searchArea">
+							<input type="text" name="searchArea" placeholder=" 输入搜索关键字">
+							<i class="fa fa-search"></i>
 						</div>
 						<div style="float:right; width:60px; height:30px; padding-top:5px;">
 							<div onclick="hideFolder();" style="float:left;">
@@ -21,6 +22,7 @@
 							</div>
 						</div>
 					</div>
+					
 					<div id="divExplore" style="position: absolute; overflow: auto; margin-left: 4px; margin-top: 4px; color: rgb(0, 0, 0); height: 472px; top: 25px; width: 316px;">
 						<ul id="treeDemo" class="ztree"></ul>
 					</div>
@@ -50,4 +52,11 @@
 			
 		}); */
 		/* layer.alert("你好",{icon:2}); */
+		$(function(){
+			$(".searchArea input").bind("focus", focusKey)
+			.bind("blur", blurKey)
+			.bind("propertychange", searchNode)
+			.bind("input", searchNode);
+			$(".searchArea i").bind("click",searchNode);
+		});
 	</script>

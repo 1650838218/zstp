@@ -8,7 +8,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.zstp.entity.TreeNode;
 import com.zstp.repository.TreeNodeRepository;
 
@@ -65,11 +67,35 @@ public class TreeNodeServiceImpl implements TreeNodeService {
 		try {
 			List<TreeNode> treeNodeList = treeNodeRepository.findAll();// 查询所有节点
 			ObjectMapper mapper = new ObjectMapper();
-			return mapper.writeValueAsString(treeNodeList);
+			JsonNode jsonNode = mapper.readTree(mapper.writeValueAsString(treeNodeList));
+			if (jsonNode.isArray()) {
+				for (int i = 0; i < jsonNode.size(); i++) {
+					if (jsonNode.get(i).get("id").asText().equals("01")) {// 根节点
+						((ObjectNode)jsonNode.get(i)).put("open",true);
+						((ObjectNode)jsonNode.get(i)).put("drag",false);
+					} 
+				}
+			}
+			log.info(jsonNode.toString());
+			return jsonNode.toString();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
 		return null;
+	}
+
+	@Override
+	public boolean deleteNode(String nodeId) {
+		try {
+			if (treeNodeRepository.deleteNode(nodeId) > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return false;
 	}
 
 }

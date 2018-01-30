@@ -1,5 +1,6 @@
 var setting = {
 	view : {
+		fontCss: getFontCss,
 		addHoverDom : addHoverDom,
 		removeHoverDom : removeHoverDom,
 		selectedMulti : false
@@ -17,62 +18,73 @@ var setting = {
 	},
 	callback : {
 		beforeDrag : beforeDrag,
-		beforeEditName : beforeEditName,
+		beforeDrop : beforeDrop,
 		beforeRemove : beforeRemove,
 		beforeRename : beforeRename,
-		onRemove : onRemove,
+		onRemove : null,
 		onRename : onRename
 	}
 };
 
-var zNodes =[{"id":"root","pId":"","name":"1111"}];
+// 查询文件夹时高亮显示查询结果
+function getFontCss(treeId, treeNode) {
+	return (!!treeNode.highlight) ? {color:"#A60000", "font-weight":"bold"} : {color:"#333", "font-weight":"normal"};
+}
 
-var log, className = "dark";
+//拖拽前的回调函数
 function beforeDrag(treeId, treeNodes) {
-	return false;
+	if (treeNodes[0].drag == false) {// 不允许拖拽
+		return false;
+	} else {
+		return true;
+	}
 }
 
-function beforeEditName(treeId, treeNode) {
-	className = (className === "dark" ? "" : "dark");
-	showLog("[ " + getTime() + " beforeEditName ]&nbsp;&nbsp;&nbsp;&nbsp; "
-			+ treeNode.name);
-	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-	zTree.selectNode(treeNode);
-	setTimeout(function() {
-		if (confirm("进入节点 -- " + treeNode.name + " 的编辑状态吗？")) {
-			setTimeout(function() {
-				zTree.editName(treeNode);
-			}, 0);
-		}
-	}, 0);
-	return false;
+// 拖拽完成前的回调
+function beforeDrop(treeId, treeNodes, targetNode, moveType, isCopy) {
+	if (targetNode.id == "01" && moveType == "prev") {
+		return false;
+	} else {
+		return true;
+	}
 }
 
+//用于捕获节点被删除之前的事件回调函数，并且根据返回值确定是否允许删除操作
 function beforeRemove(treeId, treeNode) {
-	className = (className === "dark" ? "" : "dark");
-	showLog("[ " + getTime() + " beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; "
-			+ treeNode.name);
 	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-	zTree.selectNode(treeNode);
-	return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
+//	zTree.selectNode(treeNode);
+	if(confirm("确认删除文件夹“" + treeNode.name + "”及其子文件夹吗？")) {
+		$.ajax({
+			url:"/oa/zstp/deleteNode",
+			type:"post",
+			data:{nodeId:treeNode.id},
+			dataType:"json",
+			async:false,
+			success:function(data){
+				var json =  JSON.parse(data);
+				if (!json.success) {
+					layer.alert("删除失败！",{title:"错误提示",icon:2});
+					return false;
+				} else {
+					return true;
+				}
+			},
+			error:function(){
+				layer.alert("删除失败！",{title:"错误提示",icon:2});
+				return false;
+			}
+		});
+	} else {
+		return false;
+	}
 }
 
-function onRemove(e, treeId, treeNode) {
-	showLog("[ " + getTime() + " onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; "
-			+ treeNode.name);
-}
-
+//用于捕获节点编辑名称结束（Input 失去焦点 或 按下 Enter 键）之后，更新节点名称数据之前的事件回调函数，并且根据返回值确定是否允许更改名称的操作
 function beforeRename(treeId, treeNode, newName, isCancel) {
-	className = (className === "dark" ? "" : "dark");
-	showLog((isCancel ? "<span style='color:red'>" : "") + "[ " + getTime()
-			+ " beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name
-			+ (isCancel ? "</span>" : ""));
 	if (newName.length == 0) {
-		setTimeout(function() {
-			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-			zTree.cancelEditName();
-			alert("节点名称不能为空.");
-		}, 0);
+		var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+		zTree.cancelEditName();
+		layer.alert("节点名称不能为空.", {icon:2});
 		return false;
 	}
 	return true;
@@ -108,32 +120,17 @@ function onRename(event, treeId, treeNode, isCancel) {
     });
 }
 
+// 是否显示删除按钮
 function showRemoveBtn(treeId, treeNode) {
-	return !treeNode.isFirstNode;
+	return !treeNode.level == 0;
 }
 
+// 是否显示修改按钮
 function showRenameBtn(treeId, treeNode) {
-	return !treeNode.isLastNode;
+	return !treeNode.level == 0;
 }
 
-
-function showLog(str) {
-	if (!log)
-		log = $("#log");
-	log.append("<li class='" + className + "'>" + str + "</li>");
-	if (log.children("li").length > 8) {
-		log.get(0).removeChild(log.children("li")[0]);
-	}
-}
-
-
-function getTime() {
-	var now = new Date(), h = now.getHours(), m = now.getMinutes(), s = now
-			.getSeconds(), ms = now.getMilliseconds();
-	return (h + ":" + m + ":" + s + " " + ms);
-}
-
-var newCount = 1;
+// 显示 添加 按钮
 function addHoverDom(treeId, treeNode) {
 	var sObj = $("#" + treeNode.tId + "_span");
 	if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0)
@@ -161,16 +158,16 @@ function addHoverDom(treeId, treeNode) {
 		});
 };
 
-
+// 移除 按钮
 function removeHoverDom(treeId, treeNode) {
 	$("#addBtn_" + treeNode.tId).unbind().remove();
 };
 
 
-function selectAll() {
-	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-	zTree.setting.edit.editNameSelectAll = $("#selectAll").attr("checked");
-}
+//function selectAll() {
+//	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+//	zTree.setting.edit.editNameSelectAll = $("#selectAll").attr("checked");
+//}
 
 $(document).ready(function() {
 	// 异步加载数据
@@ -182,7 +179,9 @@ $(document).ready(function() {
 			var json = JSON.parse(data);
 			if (json.success) {
 				$.fn.zTree.init($("#treeDemo"), setting, JSON.parse(json.zNodes));
-				$("#selectAll").bind("click", selectAll);
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var nodes = zTree.getNodes();
+				zTree.selectNode(nodes[0]);
 			} else {
 				layer.alert("文件夹加载失败！", {icon:2});
 			}

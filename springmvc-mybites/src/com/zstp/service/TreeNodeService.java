@@ -33,4 +33,13 @@ public interface TreeNodeService {
 	 * @return
 	 */
 	public String initNodes();
+
+	/**
+	 * TODO 删除文件夹
+	 * @author 周俊林
+	 * @Date 2018-1-30 下午2:50:34
+	 * @param nodeId
+	 * @return
+	 */
+	public boolean deleteNode(String nodeId);
 }
