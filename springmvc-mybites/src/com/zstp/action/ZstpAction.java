@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.zstp.entity.Note;
 import com.zstp.entity.TreeNode;
+import com.zstp.service.NoteService;
 import com.zstp.service.TreeNodeService;
 
 /**
@@ -33,6 +37,9 @@ public class ZstpAction {
 	
 	@Autowired
 	private TreeNodeService treeNodeService;
+	
+	@Autowired
+	private NoteService noteService;
 	
 	/**
 	 * TODO 知识图谱的主页面
@@ -136,6 +143,45 @@ public class ZstpAction {
 			} catch (Exception e) {
 				log.error(e.getMessage(),e);
 				json.put("success", false);
+			}
+		}
+		log.info(json.toString());
+		return json.toString();
+	}
+	
+	/**
+	 * TODO 根据文件夹的id分页查询该文件夹下的文件
+	 * @author 周俊林
+	 * @Date 2018-1-31 下午4:56:16
+	 * @param nodeId
+	 * @param page
+	 * @param limit
+	 * @return
+	 */
+	@RequestMapping(value = "/loadFile", method = RequestMethod.GET)
+	@ResponseBody
+	public String loadFile(String nodeId, int page, int limit) {
+		JsonNodeFactory factory = new JsonNodeFactory(false);
+		ObjectNode json = factory.objectNode();
+		if (StringUtils.isBlank(nodeId)) {
+			json.put("code", 500);
+			json.put("msg", "查询失败");
+			json.put("count", 0);
+			json.set("data", factory.arrayNode());
+		} else {
+			try {
+				ObjectMapper mapper = new ObjectMapper();
+				Page<Note> notes = noteService.queryNotes(nodeId, page, limit);
+				json.put("code", 200);
+				json.put("msg", "查询成功");
+				json.put("count", notes.getNumber());
+				json.set("data", mapper.readTree(mapper.writeValueAsString(notes.getContent())));
+			} catch (Exception e) {
+				log.error(e.getMessage(),e);
+				json.put("code", 500);
+				json.put("msg", "查询失败");
+				json.put("count", 0);
+				json.set("data", factory.arrayNode());
 			}
 		}
 		log.info(json.toString());

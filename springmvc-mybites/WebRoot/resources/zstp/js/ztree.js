@@ -17,6 +17,7 @@ var setting = {
 		}
 	},
 	callback : {
+		onClick : onClick,
 		beforeDrag : beforeDrag,
 		beforeDrop : beforeDrop,
 		beforeRemove : beforeRemove,
@@ -25,6 +26,21 @@ var setting = {
 		onRename : onRename
 	}
 };
+
+// 单击事件,查询该文件夹下的文件
+function onClick(event, treeId, treeNode, clickFlag) {
+//	var href = "oa/zstp/loadFile"
+//	var tb = $("#divRightContent .layui-table");
+//	tb.lay-data.where = {nodeId:treeNode.id};
+//	tb.load(href,"nodeId=" + treeNode.id,function(responseText, textStatus, jqXHR){
+//		// responseText 是响应(返回)的原始文本数据
+//	    // textStatus 可能是 "success"、 "notmodified"、 "error"、 "timeout"、 "abort"或"parsererror"中的一个
+//	    // jqXHR 是经过jQuery封装的XMLHttpRequest对象(保留其本身的所有属性和方法)
+//	    if(textStatus == "success" || textStatus == "notmodified"){
+//	        alert("加载成功!");
+//	    }
+//	});
+}
 
 // 查询文件夹时高亮显示查询结果
 function getFontCss(treeId, treeNode) {

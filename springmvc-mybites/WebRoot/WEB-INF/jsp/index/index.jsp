@@ -9,6 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/plugin/font-awesome-4.7.0/css/font-awesome.min.css"/>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/jquery/jquery-1.8.3.min.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/layer-v3.1.1/layer.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/layui-v2.2.5/layui.js" charset="utf-8"></script>
 </head>
  
 <body>
