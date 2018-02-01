@@ -3,11 +3,11 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/style.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/zstp/css/ztree.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/plugin/ztree-v3.5/css/zTreeStyle/zTreeStyle.css"/>
- 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/plugin/layui-v2.2.5/css/layui.css" media="all">
  	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/ztree-v3.5/js/jquery.ztree.core.js"></script>
  	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/ztree-v3.5/js/jquery.ztree.excheck.js"></script>
  	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/ztree-v3.5/js/jquery.ztree.exedit.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/zstp/js/ztree.js"></script> 
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/zstp/js/note.js"></script> 
  	<div id="rngFrameXe" style="background-color:#ededed; padding:6px 10px 6px 10px; min-width:1000px; width:expression((document.body.clientWidth < 1000) ? '1000px':'100%')">
 		<div id="divDocument" style="height: 500px;">
 			<div id="divLeft" style="">
@@ -38,7 +38,7 @@
 				<div class="divFileBt">
 					<div id="filetopmenu" style="height:26px; overflow: hidden;">
 						<div class="spFileBt" style="padding-left:6px; padding-top:2px;"><span id="gicon" style="width: 12px; height: 24px; background-position: -420px -238px;"></span></div>
-						<div class="spFileBt2" onclick="" title="添加"><span id="gicon" class="icon" style="background-position: -0px -120px; cursor: pointer;"></span>添加</div>
+						<div class="spFileBt2" onclick="addNote()" title="添加"><span id="gicon" class="icon" style="background-position: -0px -120px; cursor: pointer;"></span>添加</div>
 						<div class="spFileBt2" id="divViewStyleExt" onclick="" title="移动"><span id="gicon" class="icon" style="background-position : -120px -90px;"></span>移动</div>
 						<div class="spFileBt3" id="divViewStyleExt" onclick="" title="搜索"><span id="gicon" class="icon" style="background-position :-0px -60px;"></span>搜索</div>
 					</div>

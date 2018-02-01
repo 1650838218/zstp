@@ -4,11 +4,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import com.mysql.jdbc.Clob;
 
 /**
  * TODO 笔记 
@@ -19,21 +19,28 @@ import com.mysql.jdbc.Clob;
 @Table(name = "zstp_note")
 public class Note {
 
-	private String id;
+	private int id;
 	private String nodeId;
 	private String title;
-	private Clob content;
+	private String content;
 	private Date creTime;
 	private Date updateTime;
 	
+	/*主键生成策略
+	 * jpa 生成策略  @GeneratedValue(strategy = GenerationType.IDENTITY) 
+	 * hibernate 生成策略
+	 * 		@GeneratedValue(generator = "xxx")    
+	 *		@GenericGenerator(name = "xxx", strategy = "identity") 
+	 * */
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	@NotNull(message = "{zstp.Note.id.NotNull}")
 	@Column(name = "id", length = 50)
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 	
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
@@ -57,10 +64,10 @@ public class Note {
 	}
 	
 	@Column(name = "content")
-	public Clob getContent() {
+	public String getContent() {
 		return content;
 	}
-	public void setContent(Clob content) {
+	public void setContent(String content) {
 		this.content = content;
 	}
 	

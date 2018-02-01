@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
@@ -186,5 +187,21 @@ public class ZstpAction {
 		}
 		log.info(json.toString());
 		return json.toString();
+	}
+	
+	/**
+	 * TODO 跳转到添加笔记的页面
+	 * @author 周俊林
+	 * @Date 2018-2-1 下午2:03:52
+	 * @param nodeId
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "addNote", method = RequestMethod.GET)
+	public String addNote(String nodeId, Model model) {
+		if (StringUtils.isNotBlank(nodeId) && treeNodeService.isExist(nodeId)) {
+			model.addAttribute("nodeId", nodeId);
+		}
+		return "zstp/addNote";
 	}
 }
