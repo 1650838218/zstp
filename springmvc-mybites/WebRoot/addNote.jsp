@@ -11,17 +11,21 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/plugin/layui-v2.2.5/css/layui.css" media="all">
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/jquery/jquery-1.8.3.min.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/layui-v2.2.5/layui.js" charset="utf-8"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/kindeditor/lang/zh-CN.js" charset="utf-8"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/kindeditor/kindeditor-all.js" charset="utf-8"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/layer-v3.1.1/layer.js"></script>
 </head>
 <body>
 	<form class="layui-form" action="">
+		<input type="hidden" name="nodeId" value="${nodeId }">
 		<div class="layui-form-item">
-		    <div class="layui-input-block">
-				<input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+		    <div class="layui-input-block" style="width:700px;margin-top: 20px;">
+				<input type="text" name="title"  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
 		    </div>
 		</div>
 		<div class="layui-form-item layui-form-text">
 		    <div class="layui-input-block">
-				<textarea id="content" name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+				<textarea id="content" name="content" placeholder="请输入内容" class="layui-textarea"></textarea>
 		    </div>
 		</div>
 		<div class="layui-form-item">
@@ -34,13 +38,23 @@
 	<script>
 		layui.use('form', function() {
 			var form = layui.form;
-
 			//监听提交
 			form.on('submit(save)', function(data) {
 				layer.msg(JSON.stringify(data.field));
+				//var editor = K.create('textarea[name="content"]');
+				//layer.msg(JSON.stringify(editor.fullHtml()));
 				return false;
 			});
 		});
+		var options = {
+        	width:'700px',
+        	height:'400px',
+        	filterMode : true
+		};
+        KindEditor.ready(function(K) {
+        	window.editor = K.create('#content',options);
+        });
+        
 	</script>
 
 </body>

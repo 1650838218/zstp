@@ -10,9 +10,10 @@ function addNote() {
 		var nodeId = selectNode[0].id;
 		var index = layer.open({
 			type: 2,
-			content: '/oa/zstp/addNote?nodeId=' + nodeId,
-			maxmin: true
+			title:"新建笔记",
+			area:['900px','600px'],
+			content: '/oa/zstp/addNote?nodeId=' + nodeId
 		});
-		layer.full(index);
+//		layer.full(index);
 	}
 }
