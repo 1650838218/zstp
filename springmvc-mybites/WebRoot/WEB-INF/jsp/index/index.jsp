@@ -4,55 +4,49 @@
 <html>
 <head>
 	<title>花非花的个人博客</title>
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/main/css/index.css"/>
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/main/css/base.css"/>
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/plugin/font-awesome-4.7.0/css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/plugin/layui-v2.2.5/css/layui.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/plugin/font-awesome-4.7.0/css/font-awesome.min.css"/>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/jquery/jquery-1.8.3.min.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/layer-v3.1.1/layer.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/plugin/layui-v2.2.5/layui.js" charset="utf-8"></script>
 </head>
  
 <body>
-	<div class="topbgline"></div>
-	<div class="logo"></div>
-	<nav id="topnav">
-	    <ul>
-			<a href="javascript:void(0)" title="首页" class="nav_first" id="topnav_current">首页</a>
-            <a class="nav_1" href="javascript:void(0)" title="心情随笔">心情随笔</a> 
-            <a class="nav_2" href="javascript:void(0)" title="韶华追忆">韶华追忆</a> 
-            <a class="nav_3" href="javascript:void(0)" hreflink="/oa/zstp/zstpView" title="知识图谱">知识图谱</a> 
-            <!-- <a class="nav_22" href="/archives/index" title="个人归档">个人归档</a> 
-            <a class="nav_18" href="/book/index" title="书屋">书屋</a>  -->
-            <a class="nav_4" href="javascript:void(0)" title="对我说">对我说</a> 
-            <a class="nav_5" href="javascript:void(0)" title="关于我">关于我</a> 
-		</ul>
-	</nav>
-	<div id="loadhtml"></div>
+	<div class="layui-layout layui-layout-admin">
+		<div class="layui-header">
+	    	<div class="layui-logo">layui 后台布局</div>
+			<ul class="layui-nav layui-layout-left" lay-filter="nav">
+				<li class="layui-nav-item layui-this">
+					<a href="javascript:void(0)" title="首页" class="nav_first" >首页</a>
+				</li>
+				<li class="layui-nav-item">
+					<a class="nav_1" href="javascript:void(0)" title="心情随笔">心情随笔</a>
+				</li>
+				<li class="layui-nav-item">
+					<a class="nav_2" href="javascript:void(0)" title="韶华追忆">韶华追忆</a>
+				</li>
+				<li class="layui-nav-item">
+					<a class="nav_3" href="/oa/zstp/zstpView" title="知识图谱">知识图谱</a>
+				</li>
+				<li class="layui-nav-item">
+					<a class="nav_4" href="javascript:void(0)" title="对我说">对我说</a>
+				</li>
+				<li class="layui-nav-item">
+					<a class="nav_5" href="javascript:void(0)" title="关于我">关于我</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="content" class="" style="width: 100%; padding: 0px;">
+		
+	</div>
 	<script type="text/javascript">
-		/*var head=$(".logo").height();
-		$(window).scroll(function(){
-			var topScr=$(window).scrollTop();
-			if (topScr>head) {
-				$("#topnav").addClass("fixed");
-			}else{
-				$("#topnav").removeClass("fixed");
-			}
-		});*/
-		$(function(){
-			// 给导航添加点击事件
-			$("nav ul a").bind("click",function(){
-				$("nav ul a").each(function(index, element){
-					$(element).attr("id","");
-				});
-				$(this).attr("id","topnav_current");
-				if ($(this).attr("class") == "nav_3") {
-					$(".logo").css({"display":"none"});
-				}
-				var href = $(this).attr("hreflink");
-				var tb = $("#loadhtml");
-				tb.load(href);
-			});
-			
+		layui.use('element', function() {
+			var element = layui.element;
+			/*element.on('nav(nav)', function(elem){
+				console.log(elem[0].firstElementChild.getAttribute("hreflink")); //得到当前点击的DOM对象
+				var href = elem[0].firstElementChild.getAttribute("hreflink");
+				$("#content").load(href);
+			});*/
 		});
 	</script>
 </body>

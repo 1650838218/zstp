@@ -20,10 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.zstp.entity.Note;
-import com.zstp.entity.TreeNode;
-import com.zstp.service.NoteService;
-import com.zstp.service.TreeNodeService;
+import com.zstp.entity.Zstp;
+import com.zstp.service.ZstpService;
 
 /**
  * TODO 图谱Action
@@ -37,10 +35,7 @@ public class ZstpAction {
 	private Logger log = Logger.getLogger(this.getClass());
 	
 	@Autowired
-	private TreeNodeService treeNodeService;
-	
-	@Autowired
-	private NoteService noteService;
+	private ZstpService zstpService;
 	
 	/**
 	 * TODO 知识图谱的主页面
@@ -64,9 +59,9 @@ public class ZstpAction {
 	 * @param bindingResult
 	 * @return
 	 */
-	@RequestMapping(value = "/saveNode", method = RequestMethod.POST)
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public String saveNode(@Validated TreeNode treeNode, BindingResult bindingResult, HttpServletResponse response) {
+	public String save(@Validated Zstp zstp, BindingResult bindingResult, HttpServletResponse response) {
 		ObjectNode json = new JsonNodeFactory(false).objectNode();
 		//获取校验错误信息  
         if(bindingResult.hasErrors()){  
@@ -79,20 +74,23 @@ public class ZstpAction {
             json.put("success", false);
         } else {
         	try {
-				treeNodeService.saveNode(treeNode);// 保存
+				zstp = zstpService.save(zstp);// 保存
 				json.put("success", true);
+				zstp.setContent(null);
+				ObjectMapper mapper = new ObjectMapper();
+				json.set("node", mapper.readTree(mapper.writeValueAsString(zstp)));
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
-				json.put("error", "新建文件夹失败！");
+				json.put("error", "添加失败！");
 				json.put("success", false);
 			}
         }
         if (!json.findValue("success").asBoolean()) {
         	// 如果保存失败，则判断 是新建文件夹还是修改文件夹，如果是新建flag=add，如果是修改flag=update
-        	if (StringUtils.isBlank(treeNode.getId())) {
+        	if (zstp.getId() == null) {
         		json.put("flag", "add");
         	} else {
-        		if (treeNodeService.isExist(treeNode.getId())) {
+        		if (zstpService.isExist(zstp.getId())) {
         			json.put("flag", "update");
         		} else {
         			json.put("flag", "add");
@@ -115,7 +113,7 @@ public class ZstpAction {
 	public String initNodes() {
 		ObjectNode json = new JsonNodeFactory(false).objectNode();
 		try {
-			String zNodes = treeNodeService.initNodes();
+			String zNodes = zstpService.initNodes();
 			json.put("success", true);
 			json.put("zNodes", zNodes);
 		} catch (Exception e) {
@@ -126,13 +124,13 @@ public class ZstpAction {
 	}
 	
 	/**
-	 * TODO 删除文件夹
+	 * TODO 删除
 	 * @author 周俊林
 	 * @Date 2018-1-30 下午2:52:59
 	 * @param nodeId
 	 * @return
 	 */
-	@RequestMapping(value = "/deleteNode", method = RequestMethod.POST)
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
 	public String deleteNode(String nodeId) {
 		ObjectNode json = new JsonNodeFactory(false).objectNode();
@@ -140,7 +138,7 @@ public class ZstpAction {
 			json.put("success", false);
 		} else {
 			try {
-				json.put("success", treeNodeService.deleteNode(nodeId));
+				json.put("success", zstpService.delete(nodeId));
 			} catch (Exception e) {
 				log.error(e.getMessage(),e);
 				json.put("success", false);
@@ -159,9 +157,9 @@ public class ZstpAction {
 	 * @param limit
 	 * @return
 	 */
-	@RequestMapping(value = "/loadFile", method = RequestMethod.GET)
+	@RequestMapping(value = "/loadNote", method = RequestMethod.GET)
 	@ResponseBody
-	public String loadFile(String nodeId, int page, int limit) {
+	public String loadNote(String nodeId, int page, int limit) {
 		JsonNodeFactory factory = new JsonNodeFactory(false);
 		ObjectNode json = factory.objectNode();
 		if (StringUtils.isBlank(nodeId)) {
@@ -172,8 +170,8 @@ public class ZstpAction {
 		} else {
 			try {
 				ObjectMapper mapper = new ObjectMapper();
-				Page<Note> notes = noteService.queryNotes(nodeId, page, limit);
-				json.put("code", 200);
+				Page<Zstp> notes = zstpService.queryNotes(nodeId, page, limit);
+				json.put("code", 0);
 				json.put("msg", "查询成功");
 				json.put("count", notes.getNumber());
 				json.set("data", mapper.readTree(mapper.writeValueAsString(notes.getContent())));
@@ -198,10 +196,26 @@ public class ZstpAction {
 	 * @return
 	 */
 	@RequestMapping(value = "addNote", method = RequestMethod.GET)
-	public String addNote(String nodeId, Model model) {
-		if (StringUtils.isNotBlank(nodeId) && treeNodeService.isExist(nodeId)) {
+	public String addNote(Integer nodeId, Model model) {
+		if (nodeId != null && zstpService.isExist(nodeId)) {
 			model.addAttribute("nodeId", nodeId);
 		}
 		return "zstp/addNote";
+	}
+	
+	/**
+	 * TODO 跳转到添加文件夹的页面
+	 * @author 周俊林
+	 * @Date 2018-2-14 下午5:57:41
+	 * @param nodeId
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "addNode", method = RequestMethod.GET)
+	public String addNode(Integer nodeId, Model model) {
+		if (nodeId != null && zstpService.isExist(nodeId)) {
+			model.addAttribute("nodeId", nodeId);
+		}
+		return "zstp/addNode";
 	}
 }

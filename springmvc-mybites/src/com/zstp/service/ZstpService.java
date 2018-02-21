@@ -1,13 +1,15 @@
 package com.zstp.service;
 
-import com.zstp.entity.TreeNode;
+import org.springframework.data.domain.Page;
+
+import com.zstp.entity.Zstp;
 
 /**
  * TODO 文件夹树 服务接口
  * @author 周俊林
  * @Date 2018-1-27 下午5:57:04
  */
-public interface TreeNodeService {
+public interface ZstpService {
 
 	/**
 	 * TODO 新建文件夹
@@ -15,7 +17,7 @@ public interface TreeNodeService {
 	 * @Date 2018-1-27 下午5:59:16
 	 * @return
 	 */
-	public TreeNode saveNode(TreeNode treeNode);
+	public Zstp save(Zstp zstp);
 
 	/**
 	 * TODO 根据id判断该文件夹在数据库中是否存在
@@ -24,7 +26,7 @@ public interface TreeNodeService {
 	 * @param id
 	 * @return
 	 */
-	public boolean isExist(String id);
+	public boolean isExist(Integer id);
 
 	/**
 	 * TODO 初始化zNodes
@@ -41,5 +43,16 @@ public interface TreeNodeService {
 	 * @param nodeId
 	 * @return
 	 */
-	public boolean deleteNode(String nodeId);
+	public boolean delete(String nodeId);
+	
+	/**
+	 * TODO 根据文件夹id分页查询文件夹下的文件
+	 * @author 周俊林
+	 * @Date 2018-1-31 下午4:58:43
+	 * @param nodeId
+	 * @param page
+	 * @param limit
+	 * @return
+	 */
+	Page<Zstp> queryNotes(String nodeId, int page, int limit);
 }

@@ -1,11 +1,14 @@
 package com.zstp.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.zstp.entity.TreeNode;
+import com.zstp.entity.Zstp;
 
 /**
  * TODO dao接口定义
@@ -13,9 +16,11 @@ import com.zstp.entity.TreeNode;
  * @Date 2018-1-27 下午5:46:46
  */
 @Transactional
-public interface TreeNodeRepository extends JpaRepository<TreeNode, String> {
+public interface ZstpRepository extends JpaRepository<Zstp, Integer>, JpaSpecificationExecutor<Zstp> {
 
 	@Modifying
-	@Query("delete from TreeNode t where t.id like ?1%")
+	@Query("delete from Zstp t where t.id like ?1%")
 	public int deleteNode(String nodeId);
+
+	public List<Zstp> findByType(String type);
 }
